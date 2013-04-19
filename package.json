@@ -1,0 +1,11 @@
+{
+  "name": "nodehost",
+  "version": "0.0.1",
+  "description": "Simple auth to provide access to a static site",
+  "dependencies": {
+    "express": "*",
+    "hbs": "*",
+    "underscore": "*"
+  },
+  "engine": "node >=0.6.x"
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Auth</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Philip Rideout">
+    <link href="public/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+
+      <br>
+
+      {{#if message}}
+      <div class="palette palette-alizarin">
+        {{ message }}
+      </div>
+      {{/if}}
+
+      {{#if authenticated}}
+
+      <div class="row">
+        <div class="span4">
+          <ul class="nav nav-pills nav-stacked">
+            <li><a class="btn btn-primary btn-large" href="/{{site}}">{{sitename}}</a></li>
+            {{#each files}}
+            <li><a href="{{clientpath}}">{{filename}}</a></li>
+            {{/each}}
+            <li><a class="btn btn-info btn-small" href="/logout">log out</a></li>
+          </ul>
+        </div>
+      </div>
+
+      {{else}}
+
+      <form method="post" action="/login">
+        <div class="login-form">
+          {{#unless passwordIsUsername}}
+          <div class="control-group">
+            <input type="text" class="login-field" value="" name="username" placeholder="Enter your name" id="login-name">
+            <label class="login-field-icon fui-man-16" for="login-name"></label>
+          </div>
+          {{/unless}}
+
+          <div class="control-group">
+            <input type="password" class="login-field" value="" name="password" placeholder="Password" id="login-pass"
+            {{#if passwordIsUsername}}autofocus{{/if}}>
+            <label class="login-field-icon fui-lock-16" for="login-pass"></label>
+          </div>
+
+          <input class="btn btn-primary btn-large btn-block" type="submit" value="Login">
+        </div>
+      </form>
+      
+      {{/if}}
+    </div>
+  </body>
+</html>

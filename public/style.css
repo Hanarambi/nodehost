@@ -1,0 +1,6 @@
+@import url("flatui/css/bootstrap.css");
+@import url("flatui/css/flat-ui.css");
+
+.login-form {
+    width: 312px;
+}
