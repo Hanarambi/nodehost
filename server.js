@@ -82,9 +82,15 @@ function authenticate(name, pass, fn) {
     if (err) {
       return fn(err);
     }
-    if (hash == user.hash) {
+
+    // There's probably a better way to compare buffers,
+    // but for now we'll convert them to strings.  If we
+    // don't do this, some versions of node always fail
+    // this comparison.
+    if (hash.toString() == user.hash.toString()) {
       return fn(null, user);
     }
+
     fn(new Error('invalid password'));
   });
 }
