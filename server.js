@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var express = require('express');
 var hash = require('./pass').hash;
 var config = require('./config').config;
@@ -69,17 +71,13 @@ app.use(function(req, res, next){
   next();
 });
 
-// check the user database
+// check the user database by applying salt
 
 function authenticate(name, pass, fn) {
   var user = users[name];
   if (!user) {
     return fn(new Error('cannot find user'));
   }
-
-  // apply the same algorithm to the POSTed password, applying
-  // the hash against the pass / salt, if there is a match we
-  // found the user
   hash(pass, user.salt, function(err, hash){
     if (err) {
       return fn(err);
@@ -114,7 +112,7 @@ app.get('/login', function(req, res){
 
 app.get('/' + config.staticSiteLoc, restrict, function(req, res){
   res.sendfile(
-    config.staticSiteLoc + '/index.html',
+    config.staticSiteLoc + '/' + config.homePage,
     {root: config.rootServerPath, maxAge: null});
 });
 
@@ -169,6 +167,5 @@ app.post('/login', function(req, res){
   });
 });
 
-var port = 3000;
-app.listen(port);
-console.log('Express started on port ' + port);
+app.listen(config.port);
+console.log('Express started on port ' + config.port);
