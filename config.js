@@ -5,8 +5,8 @@ exports.config = {
   // and one for the downloads area.  Both paths are relative
   // to the given rootServerPath.
   rootServerPath: __dirname + '/..',
-  staticSiteLoc: 'book-webgl',
-  homePage: 'recipes/index.html',
+  staticSiteLoc: 'restricted',
+  homePage: 'index.html',
   downloadsLoc: 'ark',
 
   // This is the anchor text shown to the user to give access
