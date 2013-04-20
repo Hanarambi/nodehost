@@ -26,7 +26,7 @@ var collectDownloads = function() {
 var users = {};
 
 var addUser = function(uname, pwd) {
-  hash(pwd, function(err, salt, hash){
+  hash(pwd, function(err, salt, hash) {
     if (err) {
       throw err;
     }
@@ -58,7 +58,7 @@ app.use(express.session());
 
 // session-persisted handlebars context
 
-app.use(function(req, res, next){
+app.use(function(req, res, next) {
 
   var err = req.session.error;
   delete req.session.error;
@@ -83,7 +83,7 @@ function authenticate(name, pass, fn) {
   if (!user) {
     return fn(new Error('cannot find user'));
   }
-  hash(pass, user.salt, function(err, hash){
+  hash(pass, user.salt, function(err, hash) {
     if (err) {
       return fn(err);
     }
@@ -113,21 +113,21 @@ function restrict(req, res, next) {
 
 // let the routing begin!
 
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
   res.render('index');
 });
 
-app.get('/login', function(req, res){
+app.get('/login', function(req, res) {
   res.render('index');
 });
 
-app.get('/' + config.staticSiteLoc, restrict, function(req, res){
+app.get('/' + config.staticSiteLoc, restrict, function(req, res) {
   res.sendfile(
     config.staticSiteLoc + '/index.html',
     {root: config.rootServerPath, maxAge: null});
 });
 
-app.get('/' + config.staticSiteLoc + '/*', restrict, function(req, res){
+app.get('/' + config.staticSiteLoc + '/*', restrict, function(req, res) {
   res.sendfile(
     config.staticSiteLoc + '/' + req.params[0],
     {root: config.rootServerPath, maxAge: null});
@@ -137,7 +137,7 @@ var endsWith = function(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 };
 
-app.get('/public/*', function(req, res){
+app.get('/public/*', function(req, res) {
   if (endsWith(req.params[0], '.css')) {
     res.header("Content-Type", "text/css");
   }
@@ -146,7 +146,8 @@ app.get('/public/*', function(req, res){
     {root: config.rootServerPath, maxAge: null});
 });
 
-app.get('/' + config.downloadsLoc + '/:file', restrict, function(req, res){
+app.get('/' + config.downloadsLoc + '/:file', restrict, function(req, res) {
+  var downloads = collectDownloads();
   var doc = _.findWhere(downloads, {filename: req.params.file});
   if (!doc) {
     console.error('Cannot find', req.params.file);
@@ -157,17 +158,17 @@ app.get('/' + config.downloadsLoc + '/:file', restrict, function(req, res){
     {root: config.rootServerPath, maxAge: null});
 });
 
-app.get('/logout', function(req, res){
-  req.session.destroy(function(){
+app.get('/logout', function(req, res) {
+  req.session.destroy(function() {
     res.redirect('/');
   });
 });
 
-app.post('/login', function(req, res){
+app.post('/login', function(req, res) {
   var uname = req.body[config.passwordIsUsername ? 'password' : 'username'];
-  authenticate(uname, req.body.password, function(err, user){
+  authenticate(uname, req.body.password, function(err, user) {
     if (user) {
-      req.session.regenerate(function(){
+      req.session.regenerate(function() {
         req.session.user = user;
         res.redirect('back');
       });
