@@ -20,7 +20,7 @@ exports.config = {
   // Next we set up a user list.
   // If passwordIsUsername is false, then this is list of space-delimted
   // user-pwd pairs.  Passwords are plaintext here, but they're not plaintext
-  // in the server code, in case you want to hook this up to a real database.
+  // in the server code, in case you want to hook it up to a real database.
   userSpecs: ['foobar'],
 
   // Lastly, configure some standard web server stuff.
