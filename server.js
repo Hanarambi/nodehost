@@ -7,17 +7,18 @@ var fs = require('fs');
 var _ = require('underscore');
 var app = express();
 
-// collect downloadables
-
-var downloads = [];
-var path = config.rootServerPath + '/' + config.downloadsLoc;
-fs.readdirSync(path).forEach(function(f) {
-  downloads.push({
-    serverpath: '/' + config.downloadsLoc + '/' + f,
-    clientpath: '/' + config.downloadsLoc + '/' + f,
-    filename: f
+var collectDownloads = function() {
+  var downloads = [];
+  var path = config.rootServerPath + '/' + config.downloadsLoc;
+  fs.readdirSync(path).forEach(function(f) {
+    downloads.push({
+      serverpath: '/' + config.downloadsLoc + '/' + f,
+      clientpath: '/' + config.downloadsLoc + '/' + f,
+      filename: f
+    });
   });
-});
+  return downloads;
+};
 
 // build a user database that includes salt+hash pairs instead of
 // plaintext passwords
@@ -63,11 +64,15 @@ app.use(function(req, res, next){
   delete req.session.error;
 
   res.locals.message = err ? err : '';
-  res.locals.files = downloads;
   res.locals.authenticated = !!req.session.user;
   res.locals.site = config.staticSiteLoc;
   res.locals.sitename = config.staticSiteName;
   res.locals.passwordIsUsername = config.passwordIsUsername;
+
+  // We should really cache this, but it's kinda
+  // nice to have it update after hitting refresh.
+  res.locals.files = collectDownloads();
+
   next();
 });
 

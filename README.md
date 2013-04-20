@@ -24,6 +24,7 @@ You can tweak the folder names and user/password list by modifying `config.js`.
 
 ## TODO list
 
+- use `fs.watch` for ark instead of re-listing the directory at every HTTP get
 - allow certain users to upload files into ark with drag-n-drop area
 - config.js should stipulate sites/arks for each user
 - try a [different](https://github.com/ericf/express3-handlebars) handlebars view engine
