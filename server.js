@@ -65,7 +65,7 @@ app.use(function(req, res, next){
 
   res.locals.message = err ? err : '';
   res.locals.authenticated = !!req.session.user;
-  res.locals.site = config.staticSiteLoc;
+  res.locals.site = config.staticSiteLoc + '/' + config.homePage;
   res.locals.sitename = config.staticSiteName;
   res.locals.passwordIsUsername = config.passwordIsUsername;
 
@@ -123,7 +123,7 @@ app.get('/login', function(req, res){
 
 app.get('/' + config.staticSiteLoc, restrict, function(req, res){
   res.sendfile(
-    config.staticSiteLoc + '/' + config.homePage,
+    config.staticSiteLoc + '/index.html',
     {root: config.rootServerPath, maxAge: null});
 });
 
