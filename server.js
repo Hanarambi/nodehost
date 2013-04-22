@@ -68,6 +68,7 @@ app.use(function(req, res, next) {
   res.locals.site = config.staticSiteLoc + '/' + config.homePage;
   res.locals.sitename = config.staticSiteName;
   res.locals.passwordIsUsername = config.passwordIsUsername;
+  res.locals.baseurl = req.protocol + "://" + req.get('host');
 
   // We should really cache this, but it's kinda
   // nice to have it update after hitting refresh.
@@ -106,8 +107,7 @@ function restrict(req, res, next) {
   if (req.session.user) {
     next();
   } else {
-    req.session.error = 'Access denied!';
-    res.redirect('/login');
+    res.render('index');
   }
 }
 
