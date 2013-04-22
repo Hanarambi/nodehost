@@ -2,7 +2,7 @@
 
 var express = require('express');
 var hash = require('./pass').hash;
-var config = require('./config').config;
+var config = require('../config').config;
 var fs = require('fs');
 var _ = require('underscore');
 var app = express();

@@ -11,6 +11,7 @@ To try it out, do this:
     git clone https://github.com/prideout/nodehost.git
     cd nodehost
     npm install
+    cp config.js ..
     ./server
 
 Next, point your browser to `localhost:3000` and type **foobar** for the password.

@@ -4,7 +4,7 @@ exports.config = {
   // Two locations are specified: one for the static site,
   // and one for the downloads area.  Both paths are relative
   // to the given rootServerPath.
-  rootServerPath: __dirname + '/..',
+  rootServerPath: __dirname,
   staticSiteLoc: 'restricted',
   homePage: 'index.html',
   downloadsLoc: 'ark',
