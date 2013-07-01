@@ -56,12 +56,17 @@ app.use(express.bodyParser());
 app.use(express.cookieParser(config.cookieSecret));
 app.use(express.session());
 
+app.enable('jsonp callback');
+
 // session-persisted handlebars context
 
 app.use(function(req, res, next) {
 
-  var err = req.session.error;
-  delete req.session.error;
+  var err = null;
+  if (req.session) {
+    var err = req.session.error;
+    delete req.session.error;
+  }
 
   res.locals.message = err ? err : '';
   res.locals.authenticated = !!req.session.user;
@@ -113,6 +118,12 @@ function restrict(req, res, next) {
 
 // let the routing begin!
 
+app.all('/', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
+
 app.get('/', function(req, res) {
   res.render('index');
 });
@@ -138,11 +149,13 @@ var endsWith = function(str, suffix) {
 };
 
 app.get('/public/*', function(req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
   if (endsWith(req.params[0], '.css')) {
     res.header("Content-Type", "text/css");
   }
   res.sendfile(
-    'nodehost/public/' + req.params[0],
+    'nodehost/public/' + req.params[0].split('&')[0],
     {root: config.rootServerPath, maxAge: null});
 });
 

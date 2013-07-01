@@ -2,7 +2,7 @@
 
 This is a little node+express server that shows a login screen before giving access to a restricted static site.
 
-It also gives authenticated users access to a separate area of downloadable content, called `ark`.
+It gives authenticated users access to a separate area of downloadable files, called `ark`.  Additionally, static files can be served to unauthenticated users by placing them in the `public` subfolder.
 
 To try it out, do this:
 
